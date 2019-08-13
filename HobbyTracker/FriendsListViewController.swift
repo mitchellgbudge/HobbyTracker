@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FriendsListViewController.swift
 //  HobbyTracker
 //
 //  Created by Mitchell Budge on 8/13/19.
