@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Friends List View Controller-->
+        <!--Friends Table View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="FriendsListViewController" customModule="HobbyTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="FriendsTableViewController" customModule="HobbyTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="NLl-01-8aB">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FriendCell" rowHeight="60" id="NLl-01-8aB" customClass="FriendTableViewCell" customModule="HobbyTracker" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NLl-01-8aB" id="4hI-Er-lRv">
@@ -62,7 +62,10 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="cTV-om-vxd" kind="show" id="teT-nN-iJ4"/>
+                                            <outlet property="hometownLabel" destination="crP-N2-2yG" id="YAn-O9-TZr"/>
+                                            <outlet property="nameLabel" destination="aQk-Ti-9yn" id="1VE-vS-Ib0"/>
+                                            <outlet property="numberOfHobbiesLabel" destination="fZQ-WQ-tA1" id="tJh-9C-NoZ"/>
+                                            <segue destination="cTV-om-vxd" kind="show" identifier="ShowFriendDetailSegue" id="teT-nN-iJ4"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -80,19 +83,22 @@
                     <navigationItem key="navigationItem" id="CDW-yg-jur">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="mng-z8-sqs">
                             <connections>
-                                <segue destination="CRD-M0-0hW" kind="presentation" id="4Xc-Sg-4Lg"/>
+                                <segue destination="CRD-M0-0hW" kind="presentation" identifier="AddFriendModalSegue" id="4Xc-Sg-4Lg"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="GVG-2Y-owR" id="XRP-hx-I4j"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1042.0289855072465" y="138.61607142857142"/>
         </scene>
-        <!--View Controller-->
+        <!--Friend Detail View Controller-->
         <scene sceneID="IfQ-Hd-0j8">
             <objects>
-                <viewController id="cTV-om-vxd" sceneMemberID="viewController">
+                <viewController id="cTV-om-vxd" customClass="FriendDetailViewController" customModule="HobbyTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QEy-1Y-O4u">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -155,7 +161,7 @@
         <!--Title-->
         <scene sceneID="imr-EC-REq">
             <objects>
-                <viewController id="CRD-M0-0hW" sceneMemberID="viewController">
+                <viewController id="CRD-M0-0hW" customClass="AddFriendViewController" customModule="HobbyTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zPR-BG-M7l">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -210,9 +216,17 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hod-kY-Y4i">
                                 <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                                 <items>
-                                    <barButtonItem systemItem="cancel" id="lUl-GE-1cj"/>
+                                    <barButtonItem systemItem="cancel" id="lUl-GE-1cj">
+                                        <connections>
+                                            <action selector="cancelTapped:" destination="CRD-M0-0hW" id="5m4-nN-HEg"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="qEC-r2-nKl"/>
-                                    <barButtonItem systemItem="save" id="fUC-iC-zuS"/>
+                                    <barButtonItem systemItem="save" id="fUC-iC-zuS">
+                                        <connections>
+                                            <action selector="saveTapped:" destination="CRD-M0-0hW" id="Fhq-Jp-GMw"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -228,6 +242,13 @@
                         <viewLayoutGuide key="safeArea" id="Hpr-08-X73"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="a29-85-ANT"/>
+                    <connections>
+                        <outlet property="hobby1TextField" destination="2fo-WB-mXn" id="Dwe-1W-7K8"/>
+                        <outlet property="hobby2TextField" destination="gKD-a1-W7b" id="mYE-7Q-An4"/>
+                        <outlet property="hobby3TextField" destination="wBF-bM-i7j" id="sL5-j8-ILx"/>
+                        <outlet property="hometownTextField" destination="Xcl-DO-1v6" id="oPJ-GS-kPB"/>
+                        <outlet property="nameTextField" destination="YwD-rQ-2rI" id="1KS-Yb-tS1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sNB-Vj-Cit" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
