@@ -22,9 +22,22 @@ class FriendsTableViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddFriendModalSegue" {
-            
+            if let addFriendVC = segue.destination as? AddFriendViewController {
+                addFriendVC.delegate = self
+            }
         }
     }
+}
+
+
+extension FriendsTableViewController: AddFriendDelegate {
+    
+    func friendWasCreated(_ friend: Friend) {
+        friends.append(friend)
+        dismiss(animated: true, completion: nil)
+        tableView.reloadData()
+    }
+    
 }
 
 extension FriendsTableViewController: UITableViewDataSource {
